@@ -13,5 +13,5 @@
 
 #[no_mangle]
 pub extern fn add(x: i32, y:i32) -> i32 {
-    x 
+    x + y
 }

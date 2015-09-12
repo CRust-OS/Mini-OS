@@ -163,6 +163,8 @@ endif
 
 OBJS := $(filter-out $(OBJ_DIR)/lwip%.o $(LWO), $(OBJS))
 
+libc := y
+
 ifeq ($(libc),y)
 ifeq ($(CONFIG_XC),y)
 APP_LDLIBS += -L$(XEN_ROOT)/stubdom/libxc-$(MINIOS_TARGET_ARCH) -whole-archive -lxenguest -lxenctrl -no-whole-archive
@@ -171,6 +173,8 @@ APP_LDLIBS += -lpci
 APP_LDLIBS += -lz
 APP_LDLIBS += -lm
 LDLIBS += -lc
+LDLIBS += -lm
+LDLIBS += -L/usr/lib/x86_64-linux-gnu/
 endif
 
 ifneq ($(APP_OBJS)-$(lwip),-y)
@@ -184,8 +188,9 @@ ifneq ($(APP_OBJS),)
 APP_O=$(OBJ_DIR)/$(TARGET)_app.o 
 endif
 
-
+librust_main.a: rust-main.rs
 	rustc rust-main.rs
+
 $(OBJ_DIR)/$(TARGET): $(OBJS) $(APP_O) arch_lib
 	$(LD) -r $(LDFLAGS) $(HEAD_OBJ) $(APP_O) $(OBJS) $(LDLIBS) $(LDARCHLIB) -o $@.o
 	$(OBJCOPY) -w -G $(GLOBAL_PREFIX)* -G _start $@.o $@.o

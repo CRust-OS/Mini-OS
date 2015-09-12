@@ -13,7 +13,7 @@ DEF_CFLAGS += -Wstrict-prototypes -Wnested-externs -Wpointer-arith -Winline
 DEF_CPPFLAGS += -D__XEN_INTERFACE_VERSION__=$(XEN_INTERFACE_VERSION)
 
 DEF_ASFLAGS += -D__ASSEMBLY__
-DEF_LDFLAGS +=
+DEF_LDFLAGS += 
 
 ifeq ($(debug),y)
 DEF_CFLAGS += -g
