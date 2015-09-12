@@ -49,6 +49,8 @@
 
 uint8_t xen_features[XENFEAT_NR_SUBMAPS * 32];
 
+extern int add(int x, int y);
+
 void setup_xen_features(void)
 {
     xen_feature_info_t fi;
@@ -111,6 +113,8 @@ static void shutdown_thread(void *p)
 /* This should be overridden by the application we are linked against. */
 __attribute__((weak)) int app_main(start_info_t *si)
 {
+    int x = add(2, 3);
+    printk("sum is %d\n", x);
     printk("kernel.c: dummy main: start_info=%p\n", si);
     return 0;
 }

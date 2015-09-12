@@ -111,7 +111,7 @@ src-$(CONFIG_XENBUS) += xenbus/xenbus.c
 src-y += console/console.c
 src-y += console/xencons_ring.c
 src-$(CONFIG_CONSFRONT) += console/xenbus.c
-
+src-y += librust_main.a
 # The common mini-os objects to build.
 APP_OBJS :=
 OBJS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(src-y))
@@ -184,8 +184,10 @@ ifneq ($(APP_OBJS),)
 APP_O=$(OBJ_DIR)/$(TARGET)_app.o 
 endif
 
+
+	rustc rust-main.rs
 $(OBJ_DIR)/$(TARGET): $(OBJS) $(APP_O) arch_lib
-	$(LD) -r $(LDFLAGS) $(HEAD_OBJ) $(APP_O) $(OBJS) $(LDARCHLIB) $(LDLIBS) -o $@.o
+	$(LD) -r $(LDFLAGS) $(HEAD_OBJ) $(APP_O) $(OBJS) $(LDLIBS) $(LDARCHLIB) -o $@.o
 	$(OBJCOPY) -w -G $(GLOBAL_PREFIX)* -G _start $@.o $@.o
 	$(LD) $(LDFLAGS) $(LDFLAGS_FINAL) $@.o $(EXTRA_OBJS) -o $@
 	gzip -f -9 -c $@ >$@.gz
@@ -204,7 +206,7 @@ clean:	arch_clean
 	find . $(OBJ_DIR) -type l | xargs rm -f
 	$(RM) $(OBJ_DIR)/lwip.a $(LWO)
 	rm -f tags TAGS
-
+	rm librust_main.a
 
 define all_sources
      ( find . -follow -name SCCS -prune -o -name '*.[chS]' -print )
