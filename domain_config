@@ -11,9 +11,11 @@
 kernel = "mini-os.gz"
 
 # Initial memory allocation (in megabytes) for the new domain.
-memory = 32
+memory = 1024
 
 # A name for your domain. All domains must have different names.
 name = "Mini-OS"
 
 on_crash = 'destroy'
+
+serial = 'pty'

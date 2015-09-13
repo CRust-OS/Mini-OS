@@ -33,7 +33,6 @@ CONFIG_CONSFRONT ?= y
 CONFIG_XENBUS ?= y
 CONFIG_XC ?=y
 CONFIG_LWIP ?= $(lwip)
-
 # Export config items as compiler directives
 flags-$(CONFIG_START_NETWORK) += -DCONFIG_START_NETWORK
 flags-$(CONFIG_SPARSE_BSS) += -DCONFIG_SPARSE_BSS
@@ -61,6 +60,8 @@ include minios.mk
 
 # Set tester flags
 # CFLAGS += -DBLKTEST_WRITE
+CFLAGS += -static-libgcc
+CFLAGS += -fPIC
 
 # Define some default flags for linking.
 LDLIBS := 
@@ -172,9 +173,19 @@ endif
 APP_LDLIBS += -lpci
 APP_LDLIBS += -lz
 APP_LDLIBS += -lm
-LDLIBS += -lc
-LDLIBS += -lm
-LDLIBS += -L/usr/lib/x86_64-linux-gnu/
+#LDLIBS += -lc
+#LDLIBS += -lm
+#LDLIBS += -L/usr/lib/x86_64-linux-gnu/
+#LDLIBS += -L/lib/x86_64-linux-gnu/
+#LDLIBS += -L/lib/gcc/x86_65-linux-gnu/4.9.2
+#LDLIBS += -ldl -lrt -lpthread
+LDFLAGS += -L/lib/x86_64-linux-gnu/
+LDFLAGS += -L/usr/lib/x86_64-linux-gnu/
+#LDFLAGS += -L/usr/lib/x86_64-linux-musl
+LDFLAGS += -L/usr/lib/gcc/x86_64-linux-gnu/4.9.2 
+LDFLAGS += -ldl -lpthread -lrt
+LDFLAGS += -lc -lm
+LDFLAGS += -lgcc_eh
 endif
 
 ifneq ($(APP_OBJS)-$(lwip),-y)
@@ -194,7 +205,8 @@ librust_main.a: rust-main.rs
 $(OBJ_DIR)/$(TARGET): $(OBJS) $(APP_O) arch_lib
 	$(LD) -r $(LDFLAGS) $(HEAD_OBJ) $(APP_O) $(OBJS) $(LDLIBS) $(LDARCHLIB) -o $@.o
 	$(OBJCOPY) -w -G $(GLOBAL_PREFIX)* -G _start $@.o $@.o
-	$(LD) $(LDFLAGS) $(LDFLAGS_FINAL) $@.o $(EXTRA_OBJS) -o $@
+	#$(LD) $(LDFLAGS) $(LDFLAGS_FINAL) $@.o $(EXTRA_OBJS) -o $@
+	$(LD) $@.o $(LDFLAGS) $(LDFLAGS_FINAL) $(EXTRA_OBJS) -o $@
 	gzip -f -9 -c $@ >$@.gz
 
 .PHONY: clean arch_clean
