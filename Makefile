@@ -68,6 +68,9 @@ APP_LDLIBS :=
 LDARCHLIB := -L$(OBJ_DIR)/$(TARGET_ARCH_DIR) -l$(ARCH_LIB_NAME)
 LDFLAGS_FINAL := -T $(TARGET_ARCH_DIR)/minios-$(MINIOS_TARGET_ARCH).lds
 
+CFLAGS += -static
+CFLAGS += -static-libgcc
+
 # Prefix for global API names. All other symbols are localised before
 # linking with EXTRA_OBJS.
 GLOBAL_PREFIX := xenos_
@@ -172,7 +175,8 @@ endif
 APP_LDLIBS += -lpci
 APP_LDLIBS += -lz
 APP_LDLIBS += -lm
-LDLIBS += -lc
+#LDLIBS += -static -static-libgcc
+#LDLIBS += -lc
 LDLIBS += -lm
 LDLIBS += -L/usr/lib/x86_64-linux-gnu/
 endif
@@ -189,7 +193,7 @@ APP_O=$(OBJ_DIR)/$(TARGET)_app.o
 endif
 
 librust_main.a: rust-main.rs
-	rustc rust-main.rs
+	rustc -Z no-landing-pads rust-main.rs
 
 $(OBJ_DIR)/$(TARGET): $(OBJS) $(APP_O) arch_lib
 	$(LD) -r $(LDFLAGS) $(HEAD_OBJ) $(APP_O) $(OBJS) $(LDLIBS) $(LDARCHLIB) -o $@.o

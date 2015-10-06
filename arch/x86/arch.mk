@@ -14,8 +14,10 @@ endif
 ifeq ($(MINIOS_TARGET_ARCH),x86_64)
 ARCH_CFLAGS := -m64 -mno-red-zone -fno-reorder-blocks
 ARCH_CFLAGS += -fno-asynchronous-unwind-tables
+ARCH_CFLAGS += -static -static-libgcc
 ARCH_ASFLAGS := -m64
-ARCH_LDFLAGS := -m elf_x86_64
+ARCH_LDFLAGS :=
+ARCH_LDFLAGS += -m elf_x86_64
 ARCH_LDFLAGS += -L/usr/lib/x86_64-linux-gnu/ -lm -lc
 EXTRA_INC += $(TARGET_ARCH_FAM)/$(MINIOS_TARGET_ARCH)
 EXTRA_SRC += arch/$(EXTRA_INC)

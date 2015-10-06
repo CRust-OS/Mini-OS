@@ -3,8 +3,15 @@
 #![crate_type="staticlib"]
 #![feature(no_std)]
 #![no_std]
-
 #![feature(lang_items)]
+#![feature(collections)]
+#![feature(alloc)]
+
+extern crate collections;
+extern crate alloc;
+use collections::vec::Vec;
+use alloc::boxed::Box;
+
 
 // needed for compilation, see:
 // https://github.com/rust-lang/rust/blob/master/src/doc/trpl/lang-items.md
@@ -13,5 +20,7 @@
 
 #[no_mangle]
 pub extern fn add(x: i32, y:i32) -> i32 {
-    x + y
+    let z : Vec<usize> = Vec::new();
+    let a = Box::new(5);
+    x + y + *a
 }
