@@ -30,7 +30,7 @@
 #include <mini-os/lib.h> /* for printk, memcpy */
 #include <mini-os/kernel.h>
 #include <xen/xen.h>
-
+#include <crust_kernel.h>
 /*
  * Shared page for communicating with the hypervisor.
  * Events flags go here, for example.
@@ -144,7 +144,7 @@ arch_init(start_info_t *si)
 		(unsigned long)hypervisor_callback,
 		(unsigned long)failsafe_callback, 0);
 #endif
-
+	start_crust();
 	start_kernel();
 }
 

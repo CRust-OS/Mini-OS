@@ -112,6 +112,8 @@ src-y += console/console.c
 src-y += console/xencons_ring.c
 src-$(CONFIG_CONSFRONT) += console/xenbus.c
 
+src-y += crust_kernel.c
+
 # The common mini-os objects to build.
 APP_OBJS :=
 OBJS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(src-y))
