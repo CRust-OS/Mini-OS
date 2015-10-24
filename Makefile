@@ -78,24 +78,24 @@ TARGET := mini-os
 # Subdirectories common to mini-os
 SUBDIRS := lib xenbus console
 
-src-$(CONFIG_BLKFRONT) += blkfront.c
-src-$(CONFIG_TPMFRONT) += tpmfront.c
-src-$(CONFIG_TPM_TIS) += tpm_tis.c
-src-$(CONFIG_TPMBACK) += tpmback.c
-src-y += daytime.c
+# src-$(CONFIG_BLKFRONT) += blkfront.c
+# src-$(CONFIG_TPMFRONT) += tpmfront.c
+# src-$(CONFIG_TPM_TIS) += tpm_tis.c
+# src-$(CONFIG_TPMBACK) += tpmback.c
+# src-y += daytime.c
 src-y += events.c
-src-$(CONFIG_FBFRONT) += fbfront.c
-src-y += gntmap.c
-src-y += gnttab.c
+# src-$(CONFIG_FBFRONT) += fbfront.c
+# src-y += gntmap.c
+# src-y += gnttab.c
 src-y += hypervisor.c
-src-y += kernel.c
-src-y += lock.c
-src-y += main.c
+#src-y += kernel.c
+# src-y += lock.c
+# src-y += main.c
 src-y += mm.c
-src-$(CONFIG_NETFRONT) += netfront.c
-src-$(CONFIG_PCIFRONT) += pcifront.c
-src-y += sched.c
-src-$(CONFIG_TEST) += test.c
+# src-$(CONFIG_NETFRONT) += netfront.c
+# src-$(CONFIG_PCIFRONT) += pcifront.c
+# src-y += sched.c
+# src-$(CONFIG_TEST) += test.c
 
 src-y += lib/ctype.c
 src-y += lib/math.c
@@ -106,11 +106,11 @@ src-y += lib/sys.c
 src-y += lib/xmalloc.c
 src-$(CONFIG_XENBUS) += lib/xs.c
 
-src-$(CONFIG_XENBUS) += xenbus/xenbus.c
+#src-$(CONFIG_XENBUS) += xenbus/xenbus.c
 
 src-y += console/console.c
 src-y += console/xencons_ring.c
-src-$(CONFIG_CONSFRONT) += console/xenbus.c
+#src-$(CONFIG_CONSFRONT) += console/xenbus.c
 
 src-y += crust_kernel.c
 
