@@ -121,9 +121,9 @@ void start_kernel(void)
     init_events();
 
     /* ENABLE EVENT DELIVERY. This is disabled at start of day. */
-    local_irq_enable();
-
-    setup_xen_features();
+    //local_irq_enable();
+    __sti();
+//    setup_xen_features();
 
     /* Init memory management. */
     init_mm();
@@ -151,7 +151,7 @@ void start_kernel(void)
     app_main(&start_info);
 
     /* Everything initialised, start idle thread */
-    run_idle_thread();
+    //run_idle_thread();
 }
 
 void stop_kernel(void)
